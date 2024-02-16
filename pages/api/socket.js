@@ -8,6 +8,13 @@ const SocketHandler = (res, req) => {
     res.socket.server.io = io;
     io.on("connection", (socket) => {
       connect.log("server is connected");
+
+      socket.on("join-room", (roomId, userId) => {
+        console.log(`a new user ${userId} joined room ${userId}`);
+        console.log("come to my zone");
+        socket.join(roomId);
+        socket.broadcast.to(roomId).emit("user-connected", userId);
+      });
     });
   }
   res.send();
